@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = mongoose.Schema(
+const UserSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -20,32 +20,35 @@ const userSchema = mongoose.Schema(
       max: 50,
       unique: true,
     },
-
     password: {
       type: String,
-      allowNull: false,
       required: true,
-      min: 8,
-      max: 20,
+      min: 5,
     },
     picturePath: {
       type: String,
       default: "",
     },
-
     friends: {
       type: Array,
       default: [],
     },
-
     location: String,
     occupation: String,
     viewedProfile: Number,
     impressions: Number,
   },
-
   { timestamps: true }
 );
 
-const User = mongoose.model("User", userSchema);
+let User;
+
+if (mongoose.models.User) {
+  User = mongoose.model("User");
+} else {
+  User = mongoose.model("User", UserSchema);
+}
+
+// module.exports = Admin;
+// const User = mongoose.model("User", UserSchema);
 export default User;
